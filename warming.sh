@@ -8,4 +8,4 @@ if [[ -z "$file" ]]; then
     echo "Usage: warming <file>"
 fi
 
-cmd <"$file" | grep -o 'progress=.*' | cut -d: -f2-
+cmd <"$1" | grep -o "progress=.*" | cut -d: -f2- | sed "s/}$//"

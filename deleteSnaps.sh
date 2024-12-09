@@ -1,12 +1,14 @@
 #!/bin/bash
 
+set -eo pipefail
+
 # Configuration
 LOG_DIR="$HOME/Documents/screenshots"
 LOG_DAYS=5
 PURGE_FILE="$LOG_DIR/LOG_PURGE"
 
 # Redirect all output to LOG_PURGE file
-exec > "$PURGE_FILE"
+exec >"$PURGE_FILE"
 
 # Function to log messages
 log_message() {
