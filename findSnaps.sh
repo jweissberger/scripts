@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -eo pipefail
+
 LOG_DIR=$HOME/documents/screenshots
 SEARCH_DIRS=("$HOME/Downloads")
 

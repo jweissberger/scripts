@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -eo pipefail
+
 LOG_DIR=$HOME/documents/atlas_logFiles
 SEARCH_DIRS=("$HOME/Downloads")
 
