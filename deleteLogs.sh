@@ -35,6 +35,7 @@ find "$LOG_DIR" -mtime +$LOG_DAYS \( \
     -name '*.tar' -o \
     -name '*_proxy' -o \
     -name 'mtm-*' -o \
+    -name '*.zip' -o \
     -name 'metrics*' -o \
     -name '.DS_Store' \
     \) -type f -delete -print | while read -r file; do
