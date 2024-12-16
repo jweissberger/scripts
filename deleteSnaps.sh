@@ -4,7 +4,7 @@ set -eo pipefail
 
 # Configuration
 LOG_DIR="$HOME/Documents/screenshots"
-LOG_DAYS=5
+LOG_DAYS=10
 PURGE_FILE="$LOG_DIR/LOG_PURGE"
 
 # Redirect all output to LOG_PURGE file
@@ -27,9 +27,9 @@ log_message "Starting screenshot purge process"
 # Delete old screenshots
 log_message "Deleting screenshots older than $LOG_DAYS days"
 find "$LOG_DIR" -mtime +$LOG_DAYS \( \
-    -name '*.png' -o \
-    -name '*.jpeg' -o \
-    -name '*.jpg' \
+    -iname '*.png' -o \
+    -iname '*.jpeg' -o \
+    -iname '*.jpg' \
     \) -type f -delete -print | while read -r file; do
     log_message "Deleted: $file"
 done
