@@ -42,15 +42,15 @@ find "$LOG_DIR" -mtime +$LOG_DAYS \( \
     log_message "Deleted: $file"
 done
 
-# Clean up empty directories
-log_message "Removing empty directories"
-find "$LOG_DIR" -type d -empty -delete -print | while read -r dir; do
-    log_message "Removed empty directory: $dir"
+# Clean up directories
+log_message "Removing directories"
+find "$LOG_DIR" -type d -delete -print | while read -r dir; do
+    log_message "Removed directory: $dir"
 done
 
 # Log summary
 DELETED_COUNT=$(grep -c "Deleted:" "$PURGE_FILE")
-EMPTY_DIR_COUNT=$(grep -c "Removed empty directory:" "$PURGE_FILE")
-log_message "Summary: Deleted $DELETED_COUNT log files and removed $EMPTY_DIR_COUNT empty directories"
+EMPTY_DIR_COUNT=$(grep -c "Removed directory:" "$PURGE_FILE")
+log_message "Summary: Deleted $DELETED_COUNT log files and removed $EMPTY_DIR_COUNT directories"
 
 log_message "Log purge process completed"
