@@ -1,4 +1,4 @@
-0 12 * * 1-5 deleteSnaps.sh
-0 12 * * 1-5 deleteLogs.sh
-0 12 * * 1-5 findLog.sh
-0 12 * * 1-5 findSnaps.sh
+0 12 * * 1-5 deletesnaps.sh
+0 12 * * 1-5 deletelogs.sh
+0 12 * * 1-5 findlog.sh
+0 12 * * 1-5 findsnaps.sh
