@@ -1,5 +1,5 @@
 #!/bin/bash
-
+# set -x
 set -eo pipefail
 
 # Configuration
@@ -43,14 +43,14 @@ find "$LOG_DIR" -mtime +$LOG_DAYS \( \
 done
 
 # Clean up directories
-log_message "Removing directories"
-find "$LOG_DIR" -type d -delete -print | while read -r dir; do
+log_message "Removing directories older than $LOG_DAYS days"
+find "$LOG_DIR" -mtime +$LOG_DAYS -type d -delete -print | while read -r dir; do
     log_message "Removed directory: $dir"
 done
 
 # Log summary
-DELETED_COUNT=$(grep -c "Deleted:" "$PURGE_FILE")
-EMPTY_DIR_COUNT=$(grep -c "Removed directory:" "$PURGE_FILE")
-log_message "Summary: Deleted $DELETED_COUNT log files and removed $EMPTY_DIR_COUNT directories"
-
+DEL_COUNT=$(grep -c "Deleted:" "$PURGE_FILE" || true)
+EMPTY_DIR=$(grep -c "Removed directory:" "$PURGE_FILE" || true)
+log_message "Summary: Deleted $DEL_COUNT log files and removed $EMPTY_DIR directories"
 log_message "Log purge process completed"
+# set +x
