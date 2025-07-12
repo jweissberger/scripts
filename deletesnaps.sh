@@ -40,7 +40,7 @@ delete_screenshots(){
 delete_screenshots
 DELETED_COUNT=$(grep -c "Deleted:" "$PURGE_FILE" || true)
 if [ "$DELETED_COUNT" -eq 0 ]; then 
-    log_message "There are no screenshots older than $LOG_DAYS"
+    log_message "There are no screenshots older than $LOG_DAYS days"
 else
     echo ""
     echo "--------------------------------------------------------"
