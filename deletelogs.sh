@@ -1,5 +1,5 @@
 #!/bin/bash
-set -x
+# set -x
 set -eo pipefail
 
 # Configuration
@@ -77,4 +77,4 @@ else
     log_message "Log purge process completed"
     echo "--------------------------------------------------------"
 fi
-set +x
+# set +x
