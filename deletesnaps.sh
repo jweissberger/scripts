@@ -1,10 +1,10 @@
 #!/bin/bash
-
+# set -x
 set -eo pipefail
 
 # Configuration
 LOG_DIR="$HOME/Documents/screenshots"
-LOG_DAYS=10
+LOG_DAYS=-1
 PURGE_FILE="$LOG_DIR/LOG_PURGE"
 
 # Redirect all output to LOG_PURGE file
@@ -25,24 +25,26 @@ fi
 log_message "Starting screenshot purge process"
 
 # Delete old screenshots
-log_message "Deleting screenshots older than $LOG_DAYS days"
-find "$LOG_DIR" -mtime +$LOG_DAYS \( \
-    -iname '*.png' -o \
-    -iname '*.jpeg' -o \
-    -iname '*.jpg' \
-    \) -type f -delete -print | while read -r file; do
-    log_message "Deleted: $file"
-done
-
-# Clean up empty directories
-log_message "Removing empty directories"
-find "$LOG_DIR" -type d -empty -delete -print | while read -r dir; do
-    log_message "Removed empty directory: $dir"
-done
+delete_screenshots(){
+    log_message "Looking for screenshots older than $LOG_DAYS days"
+    find "$LOG_DIR" -mtime +$LOG_DAYS \( \
+        -iname '*.png' -o \
+        -iname '*.jpeg' -o \
+        -iname '*.jpg' \
+        \) -type f -delete -print | while read -r file; do
+        log_message "Deleted: $file"
+    done
+}
 
 # Log summary
-DELETED_COUNT=$(grep -c "Deleted:" "$PURGE_FILE")
-EMPTY_DIR_COUNT=$(grep -c "Removed empty directory:" "$PURGE_FILE")
-log_message "Summary: Deleted $DELETED_COUNT screenshots and removed $EMPTY_DIR_COUNT empty directories"
-
-log_message "Screenshot purge process completed"
+delete_screenshots
+DELETED_COUNT=$(grep -c "Deleted:" "$PURGE_FILE" || true)
+if [ "$DELETED_COUNT" -eq 0 ]; then 
+    log_message "There are no screenshots older than $LOG_DAYS"
+else
+    echo ""
+    echo "--------------------------------------------------------"
+    log_message "Summary: Deleted $DELETED_COUNT screenshots"
+    log_message "Screenshot purge process completed"
+    echo "--------------------------------------------------------"
+fi
