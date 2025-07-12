@@ -4,7 +4,7 @@ set -eo pipefail
 
 # Configuration
 LOG_DIR="$HOME/Documents/atlas_logFiles"
-LOG_DAYS=-1
+LOG_DAYS=10
 PURGE_FILE="$LOG_DIR/LOG_PURGE"
 
 # Redirect all output to LOG_PURGE file
