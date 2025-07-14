@@ -26,7 +26,7 @@ log_message "Starting log purge process"
 
 # Delete old log files
 delete_logs() {
-    log_message "Looking log files older than $LOG_DAYS days"
+    log_message "Looking for log files older than $LOG_DAYS days"
     find "$LOG_DIR" -mtime +$LOG_DAYS \( \
         -name 'mongodb.*' -o \
         -name '*.json' -o \
@@ -45,36 +45,43 @@ delete_logs() {
 
    # Clean up directories
     echo ""
-    log_message "Looking directories older than $LOG_DAYS days"
+    log_message "Looking for directories older than $LOG_DAYS days"
     find "$LOG_DIR" -mtime +$LOG_DAYS -depth 1 -type d -delete -print | while read -r dir; do
         log_message "Removed directory: $dir"
     done
 }
 
 # Log summary
+
+separator="--------------------------------------------------------"
+
+print_separator() {
+echo "$separator"
+}
+
 delete_logs
 DEL_COUNT=$(grep -c "Deleted:" "$PURGE_FILE" || true)
 EMPTY_DIR=$(grep -c "Removed directory:" "$PURGE_FILE" || true)
 
 if [[ "$EMPTY_DIR" -eq 0 ]]; then
     echo ""
-    echo "--------------------------------------------------------"
+    print_separator
     log_message "There are no directories older than $LOG_DAYS days"
 else
     echo ""
-    echo "--------------------------------------------------------"
+    print_separator
     log_message "Summary: Removed $EMPTY_DIR directories"
-    echo "--------------------------------------------------------"
+    print_separator
 fi
 
 if [ "$DEL_COUNT" -eq 0 ]; then
     log_message "There are no files older than $LOG_DAYS days"
-    echo "--------------------------------------------------------"
+    print_separator
 else
     echo ""
-    echo "--------------------------------------------------------"
+    print_separator
     log_message "Summary: Deleted $DEL_COUNT log files."
     log_message "Log purge process completed"
-    echo "--------------------------------------------------------"
+    print_separator
 fi
 # set +x

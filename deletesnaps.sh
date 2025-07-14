@@ -4,7 +4,7 @@ set -eo pipefail
 
 # Configuration
 LOG_DIR="$HOME/Documents/screenshots"
-LOG_DAYS=4
+LOG_DAYS=-1
 PURGE_FILE="$LOG_DIR/LOG_PURGE"
 
 # Redirect all output to LOG_PURGE file
@@ -35,6 +35,11 @@ delete_screenshots(){
         log_message "Deleted: $file"
     done
 }
+separator="--------------------------------------------------------"
+
+print_separator() {
+echo "$separator"
+}
 
 # Log summary
 delete_screenshots
@@ -43,8 +48,8 @@ if [ "$DELETED_COUNT" -eq 0 ]; then
     log_message "There are no screenshots older than $LOG_DAYS days"
 else
     echo ""
-    echo "--------------------------------------------------------"
+    print_separator
     log_message "Summary: Deleted $DELETED_COUNT screenshots"
     log_message "Screenshot purge process completed"
-    echo "--------------------------------------------------------"
+    print_separator
 fi
